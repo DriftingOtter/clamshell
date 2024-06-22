@@ -1,11 +1,11 @@
-# todo
+# clamshell
 
 > A quick and dirty to-do file viewer, and manipulator. 
 
 ## Installation // Build 
 
 ```zsh
-$ git clone https://github.com/DriftingOtter/todo.git
+$ git clone https://github.com/DriftingOtter/clamshell.git
 $ cd todo
 ```
 
