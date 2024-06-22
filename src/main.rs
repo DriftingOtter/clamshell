@@ -1,7 +1,8 @@
 use std::env;
 use std::process::Command;
 
-const TODO_FILE_PATH: &str = "/home/daksh/Documents/todo.org";
+// Include generated file path defined in TODO_FILE_PATH environment constant
+include!(concat!(env!("OUT_DIR"), "/file_path.rs"));
 
 fn get_command_line_args() -> String {
     let args: Vec<String> = env::args().collect();
@@ -76,3 +77,4 @@ fn main() {
         _    => eprintln!("Invalid command-line argument. Please use -h to open manual page."),
     };
 }
+
