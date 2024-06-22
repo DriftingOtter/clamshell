@@ -17,7 +17,7 @@ $ cargo build --release
 ### **__OPTIONAL__** Build Step
 
 ```zsh
-$ cp /target/release/todo ~/.local/bin 
+$ cp /target/release/clamshell ~/.local/bin 
 ```
 
 ## Authors
