@@ -21,9 +21,9 @@ $ cp /target/release/clamshell ~/.local/bin
 ```
 ## SYNOPSIS
 
-- View mode: todo
-- Edit mode: todo -e
-- Man  mode: todo -h
+- View mode: clamshell
+- Edit mode: clamshell -e
+- Man  mode: clamshell -h
 
 ## Dependencies
 
