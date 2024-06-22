@@ -19,6 +19,11 @@ $ cargo build --release
 ```zsh
 $ cp /target/release/clamshell ~/.local/bin 
 ```
+## SYNOPSIS
+
+- View mode: todo
+- Edit mode: todo -e
+- Man  mode: todo -h
 
 ## Authors
 
