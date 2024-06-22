@@ -6,7 +6,7 @@
 
 ```zsh
 $ git clone https://github.com/DriftingOtter/clamshell.git
-$ cd todo
+$ cd clamshell
 ```
 
 ```zsh
