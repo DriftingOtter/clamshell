@@ -25,6 +25,11 @@ $ cp /target/release/clamshell ~/.local/bin
 - Edit mode: todo -e
 - Man  mode: todo -h
 
+## Dependencies
+
+- Neovim (for editor, but can be changed in code)
+- bat    (for outputting todo file contents)
+
 ## Authors
 
 - Daksh Kaul // DrifitingOtter 🦦
