@@ -28,7 +28,7 @@ $ cp /target/release/clamshell ~/.local/bin
 ## Dependencies
 
 - Neovim (for editor, but can be changed in code)
-- bat    (for outputting todo file contents)
+- bat    (for outputting todo file contents, but can be changed in code)
 
 ## Authors
 

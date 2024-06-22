@@ -41,13 +41,13 @@ fn view_mode() {
 fn help_mode() {
     let help_page: &str = r#"
     NAME
-            todo
+            clamshell
 
     SYNOPSIS
 
-            View mode: todo
-            Edit mode: todo -e
-            Man  mode: todo -h
+            View mode: clamshell
+            Edit mode: clamshell -e
+            Man  mode: clamshell -h
 
     DESCRIPTION
                 
