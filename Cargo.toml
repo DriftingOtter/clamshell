@@ -6,6 +6,8 @@ license = "GPL-2.0-or-later"
 authors = ["Daksh Kaul", "daksh <dakshkaul7790@gmail.com>"]
 readme  = "README.md"
 
+repository = "https://github.com/DriftingOtter/clamshell.git"
+
 description = "A quick and dirty to-do file viewer, and manipulator."
 
 [package.metadata.docs.rs]
