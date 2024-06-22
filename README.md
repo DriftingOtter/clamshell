@@ -22,4 +22,4 @@ $ cp /target/release/todo ~/.local/bin
 
 ## Authors
 
-- Daksh Kaul // DrifitingOtter
+- Daksh Kaul // DrifitingOtter 🦦
