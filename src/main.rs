@@ -38,12 +38,11 @@ fn get_command_line_args() -> (String, Option<String>, Option<String>) {
                 exit(-1);
             },
         }
-        i += 1
+        i += 1;
     }
 
     return (mode, editor, viewer);
 }
-
 
 fn exec_command(command_name: &str) -> i32 {
     let status = Command::new(command_name)
@@ -80,7 +79,7 @@ fn help_mode() {
 
     OPTIONS
 
-            -- edit
+            --edit
                 Opens to-do file in the specified editor (default: nano).
 
             --help
