@@ -1,41 +1,66 @@
 use std::env;
-use std::process::Command;
+use std::process::{Command, exit};
 
 // Include generated file path defined in TODO_FILE_PATH environment constant
 include!(concat!(env!("OUT_DIR"), "/file_path.rs"));
 
-fn get_command_line_args() -> String {
+fn get_command_line_args() -> (String, Option<String>, Option<String>) {
     let args: Vec<String> = env::args().collect();
+    let mut mode = "".to_string();
+    let mut editor = None;
+    let mut viewer = None;
 
-    if args.len() > 2 {
-        eprintln!("Too many command-line arguments, check -h for manual page.");
-    } else if args.len() == 1 {
-        return "".to_string();
+    let mut i = 1;
+    while i < args.len() {
+        match args[i].as_str() {
+            "-e" | "--edit" => mode = "edit".to_string(),
+            "-h" | "--help" => mode = "help".to_string(),
+            "--editor" => {
+                if i + 1 < args.len() {
+                    editor = Some(args[i + 1].clone());
+                    i += 1;
+                } else {
+                    eprintln!("Missing value for --editor <name>.");
+                    exit(-1);
+                }
+            },
+            "--viewer" => {
+                if i + 1 < args.len() {
+                    viewer = Some(args[i + 1].clone());
+                    i += 1;
+                } else {
+                    eprintln!("Missing value for --viewer <name>.");
+                    exit(-1);
+                }
+            },
+            _ => {
+                eprintln!("Unknown argument: {}", args[i]);
+                exit(-1);
+            },
+        }
+        i += 1
     }
 
-    return args[1].clone();
+    return (mode, editor, viewer);
 }
 
-fn edit_mode() {
-    let status = Command::new("nvim")
+
+fn exec_command(command_name: &str) -> i32 {
+    let status = Command::new(command_name)
         .arg(TODO_FILE_PATH)
         .status()
-        .expect("Failed to execute edit command.");
+        .expect(format!("Failed to execute {} command.", command_name).as_str());
 
     if !status.success() {
-        eprintln!("nvim exited with an error.");
+        let exit_code = match status.code() {
+            Some(code) => code,
+            None => -1,
+        };
+        eprintln!("{} exited with an error {}.", command_name, exit_code);
+        return exit_code;
     }
-}
 
-fn view_mode() {
-    let status = Command::new("bat")
-        .arg(TODO_FILE_PATH)
-        .status()
-        .expect("Failed to execute edit command.");
-
-    if !status.success() {
-        eprintln!("bat exited with an error.");
-    }
+    return status.code().unwrap_or(0);
 }
 
 fn help_mode() {
@@ -46,8 +71,8 @@ fn help_mode() {
     SYNOPSIS
 
             View mode: clamshell
-            Edit mode: clamshell -e
-            Man  mode: clamshell -h
+            Edit mode: clamshell --edit  -e
+            Man  mode: clamshell --help  -h
 
     DESCRIPTION
                 
@@ -55,11 +80,17 @@ fn help_mode() {
 
     OPTIONS
 
-            -e
-                Opens to-do file in neovim.
+            -- edit
+                Opens to-do file in the specified editor (default: nano).
 
-            -h
+            --help
                 Outputs this help message.
+
+            --editor <name>
+                Specifies the editor to use (e.g., vim, nano).
+
+            --viewer <name>
+                Specifies the viewer to use (e.g., cat, less).
 
     AUTHOR
                 
@@ -70,11 +101,23 @@ fn help_mode() {
 }
 
 fn main() {
-    match get_command_line_args().as_str() {
-        "-e" => edit_mode(),
-        "-h" => help_mode(),
-        ""   => view_mode(),
-        _    => eprintln!("Invalid command-line argument. Please use -h to open manual page."),
+    let (mode, editor, viewer) = get_command_line_args();
+
+    let editor = editor.unwrap_or_else(|| "nano".to_string());
+    let viewer = viewer.unwrap_or_else(|| "cat".to_string());
+
+    match mode.as_str() {
+        "edit" => {
+            exec_command(&editor);
+        },
+        "help" => help_mode(),
+        ""   => {
+            exec_command(&viewer);
+        },
+        _    => {
+            eprintln!("Invalid command-line argument. Please use -h or --help to open manual page.");
+            exit(-1);
+        },
     };
 }
 
