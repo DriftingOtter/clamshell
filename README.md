@@ -1,35 +1,45 @@
 # clamshell
 
-> A quick and dirty to-do file viewer, and manipulator. 
+> A quick and dirty to-do file viewer and manipulator. 
 
-## Installation // Build 
+## Installation and Build
 
-```zsh
-$ git clone https://github.com/DriftingOtter/clamshell.git
-$ cd clamshell
+Clone the repository and navigate into it:
+```bash
+git clone https://github.com/DriftingOtter/clamshell.git
+cd clamshell
 ```
 
-```zsh
-$ export TODO_FILE_PATH=/home/USERNAME_HERE/Documents/todo.org
-$ cargo build --release
+Set the environment variable for your to-do file and build the project:
+```bash
+export TODO_FILE_PATH=/home/USERNAME_HERE/Documents/todo.org
+cargo build --release
 ```
 
-### **__OPTIONAL__** Build Step
+### Optional: Move Binary to Local Binaries Folder
 
-```zsh
-$ cp /target/release/clamshell ~/.local/bin 
+To access `clamshell` without specifying the binary path, move it to your local binaries folder:
+```bash
+cp target/release/clamshell ~/.local/bin
 ```
-## SYNOPSIS
 
-- View mode: clamshell
-- Edit mode: clamshell -e
-- Man  mode: clamshell -h
+Ensure `~/.local/bin` is in your `PATH`. You can add it by updating your shell configuration file (`~/.bashrc` or `~/.zshrc`):
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
 
-## Dependencies
+## Synopsis
 
-- NeoVim (for editor, but can be changed in code)
-- bat    (for outputting todo file contents, but can be changed in code)
+- **View mode**: `clamshell`
+- **Edit mode**: `clamshell -e` or `clamshell --edit`
+- **Help mode**: `clamshell -h` or `clamshell --help`
+
+### Additional Arguments
+
+- `--editor <name>`: Specifies the editor to use (e.g., vim, nano). Defaults to `nano`.
+- `--viewer <name>`: Specifies the viewer to use (e.g., cat, less). Defaults to `cat`.
 
 ## Authors
 
-- Daksh Kaul // DrifitingOtter 🦦
+- Daksh Kaul // DriftingOtter 🦦
+
