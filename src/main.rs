@@ -1,17 +1,18 @@
 use std::env;
 use std::process::{Command, exit};
+use std::fs;
 
-// path for the to-do file, defined at build time <-- build.rs
+// Imports compile-time constants
 include!(concat!(env!("OUT_DIR"), "/file_path.rs"));
 
 /// Parses command-line arguments and returns:
-/// mode(s): "edit", "help", or "" for view
-/// - editor: optionally specified text editor
-/// - viewer: optionally specified viewer
+/// mode(s): "edit", "help", or "" (view)
+/// - optional editor override
+/// - optional viewer override
 fn get_command_line_args() -> (&'static str, Option<String>, Option<String>) {
     let args: Vec<String> = env::args().collect();
 
-    let mut mode = "";
+    let mut mode   = "";
     let mut editor = None;
     let mut viewer = None;
 
@@ -49,29 +50,30 @@ fn get_command_line_args() -> (&'static str, Option<String>, Option<String>) {
     return (mode, editor, viewer);
 }
 
-/// Executes the given command (editor or viewer) on the TODO file.
-/// Returns the exit status of the command.
+/// Executes the given command with the todo file as an argument.
+/// Returns the exit code of the process.
 fn exec_command(command_name: &str) -> i32 {
     let status = Command::new(command_name)
         .arg(TODO_FILE_PATH)
         .status()
         .unwrap_or_else(|_| {
-            eprintln!("Failed to execute `{}` command.", command_name);
+            eprintln!("Failed to execute `{}`.", command_name);
             exit(1);
         });
 
     if !status.success() {
         let code = status.code().unwrap_or(1);
-        eprintln!("`{}` exited with error code {}.", command_name, code);
+        eprintln!("{} exited with an error code {}.", command_name, code);
         return code;
     }
 
     return status.code().unwrap_or(0);
 }
 
-/// Prints the help manual to the console.
+/// Displays the man page
 fn help_mode() {
-    const HELP_PAGE: &str = r#"
+    println!(
+        r#"
 NAME
     clamshell
 
@@ -85,7 +87,7 @@ DESCRIPTION
 
 OPTIONS
     --edit
-        Opens to-do file in the specified editor (default: nano).
+        Opens to-do file in the specified editor (default: {editor}).
 
     --help
         Outputs this help message.
@@ -98,25 +100,39 @@ OPTIONS
 
 AUTHOR
     Daksh Kaul // DriftingOtter
-"#;
-    println!("{}", HELP_PAGE);
+"#,
+        editor = DEFAULT_EDITOR
+    );
 }
 
 fn main() {
-    let (mode, editor, viewer) = get_command_line_args();
+    let (mode, editor_arg, viewer_arg) = get_command_line_args();
 
-    // Set defaults only if not specified
-    let editor = editor.unwrap_or_else(|| "nano".to_string());
-    let viewer = viewer.unwrap_or_else(|| "cat".to_string());
+    let editor = editor_arg.unwrap_or_else(|| DEFAULT_EDITOR.to_string());
+    let viewer = viewer_arg.unwrap_or_else(|| DEFAULT_VIEWER.to_string());
 
     match mode {
-        "edit" => { exit(exec_command(&editor)); },
+        "edit" => {
+            exec_command(&editor);
+        }
         "help" => help_mode(),
-        ""     => { exit(exec_command(&viewer)); },
-        _      => {
-            eprintln!("Invalid argument. Use -h or --help for usage.");
+        "" => {
+            if viewer == "cat" {
+                match fs::read_to_string(TODO_FILE_PATH) {
+                    Ok(contents) => println!("{}", contents),
+                    Err(err) => {
+                        eprintln!("Error reading file: {}", err);
+                        exit(1);
+                    }
+                }
+            } else {
+                exec_command(&viewer);
+            }
+        }
+        _ => {
+            eprintln!("Invalid mode. Use -h or --help for usage.");
             exit(1);
         }
-    };
+    }
 }
 
