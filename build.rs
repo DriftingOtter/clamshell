@@ -4,7 +4,7 @@ use std::path::Path;
 
 fn main() {
     // Read environment variables or use defaults
-    let todo_file_path = env::var("TODO_FILE_PATH").unwrap_or_else(|_| "todo.org".into());
+    let todo_file_path = env::var("TODO_FILE_PATH").unwrap_or_else(|_| "todo.md".into());
     let default_editor = env::var("DEFAULT_EDITOR").unwrap_or_else(|_| "nano".into());
     let default_viewer = env::var("DEFAULT_VIEWER").unwrap_or_else(|_| "cat".into());
 
