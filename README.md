@@ -1,6 +1,6 @@
 # clamshell
 
-> A quick and dirty to-do file viewer and manipulator. 
+> A quick and dirty to-do file viewer and manipulator.
 
 ## Installation and Build
 
@@ -11,7 +11,19 @@ git clone https://github.com/DriftingOtter/clamshell.git
 cd clamshell
 ```
 
-### Required: Set the To-Do File Path
+### Quick Install (Recommended)
+
+Use the provided script to configure and build Clamshell automatically:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+### Manual Installation
+
+If you prefer to configure and build manually:
+
+#### Set the To-Do File Path
 
 Specify the location of your to-do file using the `TODO_FILE_PATH` environment variable:
 
@@ -19,7 +31,7 @@ Specify the location of your to-do file using the `TODO_FILE_PATH` environment v
 export TODO_FILE_PATH=/home/USERNAME_HERE/Documents/todo.org
 ```
 
-### Optional: Configure Default Editor and Viewer
+#### Configure Default Editor and Viewer
 
 You can optionally set which programs are used for editing and viewing the to-do file:
 
@@ -30,13 +42,13 @@ export DEFAULT_VIEWER=less  # Default is cat
 
 These values will be compiled into the binary. You can still override them at runtime using CLI flags.
 
-### Build the Project
+#### Build the Project
 
 ```bash
 cargo build --release
 ```
 
-### Optional: Move Binary to Local Binaries Folder
+#### Optional: Move Binary to Local Binaries Folder
 
 To access `clamshell` without specifying the binary path, move it to your local binaries folder:
 
@@ -65,5 +77,5 @@ export PATH="$HOME/.local/bin:$PATH"
 
 ## Authors
 
-- Daksh Kaul // DriftingOtter 🦦
+- Daksh Kaul // DriftingOtter
 

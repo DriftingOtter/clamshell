@@ -83,7 +83,7 @@ SYNOPSIS
     Man  mode: clamshell --help  -h
 
 DESCRIPTION
-    A command-line tool to help view, edit, and use your to-do files.
+    A quick and dirty to-do file viewer and manipulator.
 
 OPTIONS
     --edit
